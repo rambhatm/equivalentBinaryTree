@@ -1,14 +1,20 @@
 package main
 
-import "golang.org/x/tour/tree"
+type Tree struct {
+	left  *Tree
+	value int
+	right *Tree
+}
 
-// Walk walks the tree t sending all values
-// from the tree to the channel ch.
-func Walk(t *tree.Tree, ch chan int)
+//Inserts integer into sorted position in the tree
+func (t *Tree) insert(x int) {
+	if x < t.value {
+		t.left.insert(x)
+	} else {
+		t.right.insert(x)
+	}
 
-// Same determines whether the trees
-// t1 and t2 contain the same values.
-func Same(t1, t2 *tree.Tree) bool
+}
 
 func main() {
 }
