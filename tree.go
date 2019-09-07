@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math/rand"
 	"time"
 )
@@ -14,39 +13,43 @@ type Tree struct {
 
 //Inserts integer into sorted position in the tree
 func (t *Tree) insert(x int) {
-	if t == nil {
-		head := new(Tree)
-		head.value = x
-		fmt.Printf("\n New tree head %p", head)
-		t = head
-	}
-	/*
-		if x < t.value {
-			t.left.insert(x)
-		} else {
-			t.right.insert(x)
-		}
 
-		leaf := new(Tree)
-		leaf.value = x
-	*/
+	if x < t.value {
+		if t.left == nil {
+			t.left = &Tree{value: x}
+			return
+		}
+		t.left.insert(x)
+	} else {
+		if t.right == nil {
+			t.right = &Tree{value: x}
+			return
+		}
+		t.right.insert(x)
+	}
+
 }
 
+//Returns a string representation of the tree
+func (t *Tree) String() string {
+	return "abcd"
+}
+
+//generates random num (1-n)K
 func getRandomNum(n int) int {
 	return (rand.Intn(n) + 1) * 1000
 }
 
-//Returns a random binary tree holding values k, 2k,...nk
+//Newtree Returns a random binary tree holding n values k, 2k,...nk
 func Newtree(n int, k int) *Tree {
 	if n < 1 {
 		return nil
 	}
-	var head = Tree{nil, getRandomNum(k), nil}
 	rand.Seed(time.Now().UnixNano())
+	var head = Tree{nil, getRandomNum(k), nil}
 
 	for i := 1; i < n; i++ {
 		head.insert(getRandomNum(k))
 	}
-	fmt.Printf("\n New tree head2 %p", &head)
 	return &head
 }
