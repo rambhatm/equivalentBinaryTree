@@ -46,14 +46,42 @@ func Newtree(n int, k int) *Tree {
 		return nil
 	}
 	rand.Seed(time.Now().UnixNano())
-	var head = Tree{nil, generateValue(k), nil}
+	var head = Tree{value: generateValue(k)}
 
 	for i := 1; i < n; i++ {
 		head.insert(generateValue(k))
 	}
 	return &head
 }
+func walkTree(t *Tree, ch chan int) {
+	if t.left != nil {
+		walkTree(t.left, ch)
+	}
+	ch <- t.value
+	if t.right != nil {
+		walkTree(t.right, ch)
+	}
 
-func Walk(t *Tree, ch chan) {
-	
+}
+
+// Walk walks the tree t sending all values
+// from the tree to the channel ch.
+func Walk(t *Tree, ch chan int) {
+	walkTree(t, ch)
+	close(ch)
+}
+
+// Same determines whether the trees
+// t1 and t2 contain the same values.
+func Same(t1, t2 *Tree) bool {
+	ch1 := make(chan int)
+	ch2 := make(chan int)
+	go Walk(t1, ch1)
+	go Walk(t2, ch2)
+	for val := range ch1 {
+		if val != <-ch2 {
+			return false
+		}
+	}
+	return true
 }
