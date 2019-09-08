@@ -36,7 +36,7 @@ func (t *Tree) String() string {
 }
 
 //generates random num (1-n)K
-func getRandomNum(n int) int {
+func generateValue(n int) int {
 	return (rand.Intn(n) + 1) * 1000
 }
 
@@ -46,10 +46,14 @@ func Newtree(n int, k int) *Tree {
 		return nil
 	}
 	rand.Seed(time.Now().UnixNano())
-	var head = Tree{nil, getRandomNum(k), nil}
+	var head = Tree{nil, generateValue(k), nil}
 
 	for i := 1; i < n; i++ {
-		head.insert(getRandomNum(k))
+		head.insert(generateValue(k))
 	}
 	return &head
+}
+
+func Walk(t *Tree, ch chan) {
+	
 }
