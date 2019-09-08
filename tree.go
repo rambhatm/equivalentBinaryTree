@@ -1,7 +1,8 @@
-package main
+package eqbinarytree
 
 import (
 	"math/rand"
+	"strconv"
 	"time"
 )
 
@@ -32,7 +33,13 @@ func (t *Tree) insert(x int) {
 
 //Returns a string representation of the tree
 func (t *Tree) String() string {
-	return "abcd"
+	var tree string
+	ch := make(chan int)
+	go Walk(t, ch)
+	for i := range ch {
+		tree = tree + strconv.Itoa(i) + " "
+	}
+	return tree
 }
 
 //generates random num (1-n)K
